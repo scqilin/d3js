@@ -84,7 +84,6 @@ svg.append("g") // 添加y轴元素
     .attr("transform", "translate(" + padding + ",0)") // 定义位置
     .call(yAxis); // 绑定比例尺
 ```
-![运行结果](./bar.png)
 #### 完整代码
 
 下面是绘制基础柱状图的完整代码：
