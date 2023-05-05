@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>d3.js basic chart</title>
+    <!-- <script src="../js/d3.min.js"></script> -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<body>
+    <script>
+        // 基本柱状图
+        var dataset = [
+            {name: "周一" , value: 30},
+            {name: "周二" , value: 20},
+            {name: "周三" , value: 50},
+            {name: "周四" , value: 20},
+            {name: "周五" , value: 80},
+            {name: "周六" , value: 30},
+            {name: "周日" , value: 60}
+        ];
+
+        var padding = 30;
+        var svgWidth = 600;
+        var svgHeight = 400;
+
+        var xScale = d3.scaleBand()
+            .domain(d3.range(dataset.length))
+            .range([padding, svgWidth - padding])
+            .padding(0.3)
+
+        var yScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset, function(d) { return d.value; })])
+            .range([svgHeight - padding, padding]);
+
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .style('border', '1px solid #999999')
+
+
+        var barWidth = xScale.bandwidth();
+        var bars = svg.selectAll(".bar")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("class", "bar")
+            .attr("fill", "#69b3a2")
+            .attr("x", function (d, i) {
+                return xScale(i);
+            })
+            .attr("y", function (d) {
+                return yScale(d.value);
+            })
+            .attr("width", barWidth)
+            .attr("height", function (d) {
+                return svgHeight - yScale(d.value) - padding;
+            });
+
+
+        var xAxis = d3.axisBottom(xScale)
+            .tickFormat(function (d, i) {
+                return dataset[i].name;
+            })
+        var yAxis = d3.axisLeft(yScale);
+
+        svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", "translate(0," + (svgHeight - padding) + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y-axis")
+            .attr("transform", "translate(" + padding + ",0)")
+            .call(yAxis);
+    </script>
+    <script>
+        // 基本折线图
+        var dataset = [
+            { name: "苹果", value: 50 },
+            { name: "橙子", value: 30 },
+            { name: "香蕉", value: 70 },
+            { name: "核桃", value: 20 },
+            { name: "芒果", value: 60 },
+            { name: "梨子", value: 100 },
+            { name: "菠萝", value: 80 },
+            { name: "葡萄", value: 90 },
+            { name: "草莓", value: 35 },
+            { name: "西瓜", value: 75 },
+            { name: "桃子", value: 55 },
+            { name: "樱桃", value: 25 }
+        ];
+
+        var padding = 30;
+        var svgWidth = 600;
+        var svgHeight = 400;
+
+        var xScale = d3.scaleBand()
+            .domain(d3.range(dataset.length))
+            .range([padding, svgWidth - padding])
+            .padding(0) // 设置柱子之间的间隙
+            .paddingInner(1) // 设置柱子内部的间隙
+
+        var yScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset, function (d) { return d.value; })])
+            .range([svgHeight - padding, padding]);
+
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .style('border', '1px solid #999999')
+
+
+        var line = d3.line()
+            .x(function (d, i) {
+                return xScale(i) + xScale.bandwidth() / 2;
+            })
+            .y(function (d) {
+                return yScale(d.value);
+            })
+            .curve(d3.curveCardinal);
+
+        svg.append("path")
+            .datum(dataset)
+            .attr("class", "line")
+            .attr("d", line)
+            .attr("fill", "none")
+            .attr("stroke", "#69b3a2")
+            .attr("stroke-width", "3px");
+
+        var xAxis = d3.axisBottom(xScale)
+            .tickFormat(function (d, i) {
+                return dataset[i].name;
+            })
+        var yAxis = d3.axisLeft(yScale);
+
+        svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", "translate(0," + (svgHeight - padding) + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y-axis")
+            .attr("transform", "translate(" + padding + ",0)")
+            .call(yAxis);
+
+    </script>
+    <script>
+        // 基本面积图
+        var dataset = [
+            { name: "苹果", value: 50 },
+            { name: "橙子", value: 30 },
+            { name: "香蕉", value: 70 },
+            { name: "核桃", value: 20 },
+            { name: "芒果", value: 60 },
+            { name: "梨子", value: 100 },
+            { name: "菠萝", value: 80 },
+            { name: "葡萄", value: 90 },
+            { name: "草莓", value: 35 },
+            { name: "西瓜", value: 75 },
+            { name: "桃子", value: 55 },
+            { name: "樱桃", value: 25 }
+        ];
+        
+        var padding = 30;
+        var svgWidth = 600;
+        var svgHeight = 400;
+        
+        var xScale = d3.scaleBand()
+            .domain(d3.range(dataset.length))
+            .range([padding, svgWidth - padding])
+            .padding(0)
+            .paddingInner(1)
+        
+        var yScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset, function (d) { return d.value; })])
+            .range([svgHeight - padding, padding]);
+        
+        var area = d3.area()
+            .x(function (d, i) { return xScale(i) + xScale.bandwidth() / 2; })
+            .y0(svgHeight - padding)
+            .y1(function (d) { return yScale(d.value); })
+            .curve(d3.curveCardinal);
+        
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .style('border', '1px solid #999999')
+        
+        svg.append("path")
+            .datum(dataset)
+            .attr("class", "area")
+            .attr("d", area)
+            .attr("fill", "#69b3a2");
+        
+        var xAxis = d3.axisBottom(xScale)
+            .tickFormat(function (d, i) { return dataset[i].name; });
+        var yAxis = d3.axisLeft(yScale);
+        
+        svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", "translate(0," + (svgHeight - padding) + ")")
+            .call(xAxis);
+        
+        svg.append("g")
+            .attr("class", "y-axis")
+            .attr("transform", "translate(" + padding + ",0)")
+            .call(yAxis);
+        
+    </script>
+    <script>
+        // 基本饼图
+        var dataset = [
+            { name: "春", value: 20 },
+            { name: "夏", value: 50 },
+            { name: "秋", value: 20 },
+            { name: "冬", value: 80 }
+        ];
+
+        // 颜色集合
+        var color = d3.scaleOrdinal(["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3"]);
+
+        // SVG尺寸
+        var svgWidth = 600;
+        var svgHeight = 400;
+
+        // 饼图半径
+        var radius = Math.min(svgWidth, svgHeight) / 3;
+
+        // 创建一个弧生成器
+        var arcGenerator = d3.arc()
+            .innerRadius(radius*0.5)
+            .outerRadius(radius);
+
+        // 创建一个布局
+        var pieLayout = d3.pie()
+            .value(function (d) {
+                return d.value;
+            });
+
+        // 生成饼图数据
+        var pieData = pieLayout(dataset);
+
+        // 创建SVG容器
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .style('border', '1px solid #999999');
+
+        // 创建饼图容器并居中显示
+        var pieContainer = svg.append("g")
+            .attr("transform", "translate(" + svgWidth / 2 + "," + svgHeight / 2 + ")");
+
+        // 绘制饼图
+        pieContainer.selectAll(".arc")
+            .data(pieData)
+            .enter()
+            .append("path")
+            .attr("class", "arc")
+            .attr("d", arcGenerator)
+            .attr("fill", function (d, i) {
+                return color(i);
+            });
+
+        // 添加图例
+        var legend = svg.selectAll(".legend")
+            .data(pieData)
+            .enter()
+            .append("g")
+            .attr("class", "legend")
+            .attr("transform", function (d, i) {
+                var x = svgWidth - 100;
+                var y = 20 + i * 25;
+                return "translate(" + x + "," + y + ")";
+            });
+
+        legend.append("rect")
+            .attr("width", 20)
+            .attr("height", 10)
+            .attr("y", 5)
+            .attr("fill", function (d, i) {
+                return color(i);
+            });
+
+        legend.append("text")
+            .attr("x", 30)
+            .attr("y", 15)
+            .text(function (d) {
+                return d.data.name + "：" + d.data.value;
+            });
+    </script>
+
+    <script>
+        // 基本散点图
+        var dataset = [];
+        for (var i = 0; i < 100; i++) {
+            var x = Math.random() * 9 + 1; 
+            var y = 100 - Math.floor(Math.random() * 90 + 5); 
+            dataset.push([x, y]);
+        }
+
+        var padding = 30;
+        var svgWidth = 600;
+        var svgHeight = 400;
+
+        var xScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset, function (d) { return d[0]; })])
+            .range([padding, svgWidth - padding]);
+
+        var yScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset, function (d) { return d[1]; })])
+            .range([svgHeight - padding, padding]);
+
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .style('border', '1px solid #999999')
+
+        var dots = svg.selectAll(".dot")
+            .data(dataset)
+            .enter().append("circle")
+            .attr("class", "dot")
+            .attr("r", 5)
+            .attr("fill", "#69b3a2")
+            .attr("cx", function (d) { return xScale(d[0]); })
+            .attr("cy", function (d) { return yScale(d[1]); });
+
+        var xAxis = d3.axisBottom(xScale);
+        var yAxis = d3.axisLeft(yScale);
+
+        svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", "translate(0," + (svgHeight - padding) + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y-axis")
+            .attr("transform", "translate(" + padding + ",0)")
+            .call(yAxis);
+
+    </script>
+</body>
+
+</html>
