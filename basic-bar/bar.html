@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>d3.js bar</title>
+    <!-- <script src="../js/d3.min.js"></script> -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+</head>
+
+<body>
+    <script>
+        var dataset = [10, 20, 30, 40, 33, 24, 12, 5];
+
+        var padding = 30;
+        var svgWidth = 600;
+        var svgHeight = 400;
+
+        var xScale = d3.scaleBand()
+            .domain(d3.range(dataset.length))
+            .range([padding, svgWidth - padding])
+            .padding(0.3)
+
+        var yScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset)])
+            .range([svgHeight - padding, padding]);
+
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .style('border', '1px solid #999999')
+
+
+        var barWidth = xScale.bandwidth();
+        var bars = svg.selectAll(".bar")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("class", "bar")
+            .attr("fill", "#69b3a2")
+            .attr("x", function (d, i) {
+                return xScale(i);
+            })
+            .attr("y", function (d) {
+                return yScale(d);
+            })
+            .attr("width", barWidth)
+            .attr("height", function (d) {
+                return svgHeight - yScale(d) - padding;
+            });
+
+
+        var xAxis = d3.axisBottom(xScale);
+        var yAxis = d3.axisLeft(yScale);
+
+        svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", "translate(0," + (svgHeight - padding) + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y-axis")
+            .attr("transform", "translate(" + padding + ",0)")
+            .call(yAxis);
+    </script>
+</body>
+
+</html>
