@@ -17,13 +17,13 @@
     <script>
         // 基本柱状图
         var dataset = [
-            {name: "周一" , value: 30},
-            {name: "周二" , value: 20},
-            {name: "周三" , value: 50},
-            {name: "周四" , value: 20},
-            {name: "周五" , value: 80},
-            {name: "周六" , value: 30},
-            {name: "周日" , value: 60}
+            { name: "周一", value: 30 },
+            { name: "周二", value: 20 },
+            { name: "周三", value: 50 },
+            { name: "周四", value: 20 },
+            { name: "周五", value: 80 },
+            { name: "周六", value: 30 },
+            { name: "周日", value: 60 }
         ];
 
         var padding = 30;
@@ -36,7 +36,7 @@
             .padding(0.3)
 
         var yScale = d3.scaleLinear()
-            .domain([0, d3.max(dataset, function(d) { return d.value; })])
+            .domain([0, d3.max(dataset, function (d) { return d.value; })])
             .range([svgHeight - padding, padding]);
 
         var svg = d3.select("body")
@@ -169,53 +169,53 @@
             { name: "桃子", value: 55 },
             { name: "樱桃", value: 25 }
         ];
-        
+
         var padding = 30;
         var svgWidth = 600;
         var svgHeight = 400;
-        
+
         var xScale = d3.scaleBand()
             .domain(d3.range(dataset.length))
             .range([padding, svgWidth - padding])
             .padding(0)
             .paddingInner(1)
-        
+
         var yScale = d3.scaleLinear()
             .domain([0, d3.max(dataset, function (d) { return d.value; })])
             .range([svgHeight - padding, padding]);
-        
+
         var area = d3.area()
             .x(function (d, i) { return xScale(i) + xScale.bandwidth() / 2; })
             .y0(svgHeight - padding)
             .y1(function (d) { return yScale(d.value); })
             .curve(d3.curveCardinal);
-        
+
         var svg = d3.select("body")
             .append("svg")
             .attr("width", svgWidth)
             .attr("height", svgHeight)
             .style('border', '1px solid #999999')
-        
+
         svg.append("path")
             .datum(dataset)
             .attr("class", "area")
             .attr("d", area)
             .attr("fill", "#69b3a2");
-        
+
         var xAxis = d3.axisBottom(xScale)
             .tickFormat(function (d, i) { return dataset[i].name; });
         var yAxis = d3.axisLeft(yScale);
-        
+
         svg.append("g")
             .attr("class", "x-axis")
             .attr("transform", "translate(0," + (svgHeight - padding) + ")")
             .call(xAxis);
-        
+
         svg.append("g")
             .attr("class", "y-axis")
             .attr("transform", "translate(" + padding + ",0)")
             .call(yAxis);
-        
+
     </script>
     <script>
         // 基本饼图
@@ -238,7 +238,7 @@
 
         // 创建一个弧生成器
         var arcGenerator = d3.arc()
-            .innerRadius(radius*0.5)
+            .innerRadius(radius * 0.5)
             .outerRadius(radius);
 
         // 创建一个布局
@@ -299,13 +299,12 @@
                 return d.data.name + "：" + d.data.value;
             });
     </script>
-
     <script>
         // 基本散点图
         var dataset = [];
         for (var i = 0; i < 100; i++) {
-            var x = Math.random() * 9 + 1; 
-            var y = 100 - Math.floor(Math.random() * 90 + 5); 
+            var x = Math.random() * 9 + 1;
+            var y = 100 - Math.floor(Math.random() * 90 + 5);
             dataset.push([x, y]);
         }
 
@@ -350,8 +349,110 @@
             .call(yAxis);
 
     </script>
+    <script>
+        // 基本雷达图
+        // 基本雷达图数据
+        var dataset = [
+            { name: "数学", value: 98 },
+            { name: "语文", value: 90 },
+            { name: "英语", value: 80 },
+            { name: "物理", value: 85 },
+            { name: "化学", value: 85 },
+            { name: "生物", value: 90 }
+        ];
 
-    
+        // 雷达图属性
+        var padding = 50;
+        var svgWidth = 600;
+        var svgHeight = 400;
+        var centerX = svgWidth / 2; // 中心点x坐标
+        var centerY = svgHeight / 2; // 中心点y坐标
+        var radius = Math.min(centerX, centerY) - padding; // 半径
+
+        // 刻度数量，即多边形共有几个角
+        var numTicks = dataset.length;
+
+        // 极坐标系转换函数
+        var angleScale = d3.scaleLinear()
+            .domain([0, numTicks])
+            .range([0, Math.PI * 2]);
+
+        // 线性比例尺转换函数
+        var valueScale = d3.scaleLinear()
+            .domain([0, 100])
+            .range([0, radius]);
+
+        // 创建SVG元素
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .style('border', '1px solid #999999');
+
+        // 定义渐变 中心向外渐变
+        var gradient = svg.append("defs")
+            .append("radialGradient")
+            .attr("id", "gradient")
+            .attr("cx", "50%")
+            .attr("cy", "50%")
+            .attr("r", "50%")
+            .attr("fx", "50%")
+            .attr("fy", "50%");
+        gradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "#f6efa6")
+            .attr("stop-opacity", 1);
+        gradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "#69b3a2")
+            .attr("stop-opacity", 1);
+
+
+        // 绘制多边形
+        var polygon = svg.append("g")
+            .attr("class", "polygon");
+        for (var i = 0; i < numTicks; i++) {
+            var angle = angleScale(i);
+            var x = centerX + valueScale(100) * Math.sin(angle);
+            var y = centerY - valueScale(100) * Math.cos(angle);
+            polygon.append("line")
+                .attr("x1", centerX)
+                .attr("y1", centerY)
+                .attr("x2", x)
+                .attr("y2", y)
+                .attr("stroke", "#cccccc")
+                .attr("stroke-width", 1);
+        }
+
+        // 绘制数据连线
+        var line = d3.line()
+            .x(function (d, i) { return centerX + valueScale(d.value) * Math.sin(angleScale(i)); })
+            .y(function (d, i) { return centerY - valueScale(d.value) * Math.cos(angleScale(i)); });
+        svg.append("path")
+            .datum(dataset)
+            .attr("fill", "url(#gradient)")
+            .attr("stroke", "#69b3a2")
+            .attr("stroke-width", 2)
+            .attr("d", line);
+
+        // 绘制轴标签
+        var labels = svg.append("g")
+            .attr("class", "labels");
+        for (var i = 0; i < numTicks; i++) {
+            var angle = angleScale(i);
+            var r = radius + padding*0.5;
+            var x = centerX + r * Math.sin(angle);
+            var y = centerY - r * Math.cos(angle);
+            labels.append("text")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("text-anchor", "middle")
+                .attr("fill", "#333333")
+                .text(dataset[i].name + " " + dataset[i].value);
+        }
+
+    </script>
+
 </body>
 
 </html>
