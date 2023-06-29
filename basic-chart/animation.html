@@ -976,7 +976,7 @@
                         .duration(1000)
                         .attr("cx", function (d) { return xScale(d[0]); })
                         .attr("cy", function (d) { return yScale(d[1]); });
-                    
+
                 }
                 // 添加数据
                 buts[1].onclick = function () {
@@ -1017,111 +1017,162 @@
 
 
     </script>
-    <!-- 
+
     <script>
-        // 基本雷达图
-        // 基本雷达图数据
-        let dataset = [
-            { name: "数学", value: 98 },
-            { name: "语文", value: 90 },
-            { name: "英语", value: 80 },
-            { name: "物理", value: 85 },
-            { name: "化学", value: 85 },
-            { name: "生物", value: 90 }
-        ];
+            (function () {
+                // 基本雷达图
+                let dom = document.createElement('div');
+                document.body.appendChild(dom);
+                let dataset = [
+                    { name: "数学", value: 98 },
+                    { name: "语文", value: 90 },
+                    { name: "英语", value: 80 },
+                    { name: "物理", value: 85 },
+                    { name: "化学", value: 85 },
+                    { name: "生物", value: 90 }
+                ];
 
-        // 雷达图属性
-        let padding = 50;
-        let svgWidth = 600;
-        let svgHeight = 400;
-        let centerX = svgWidth / 2; // 中心点x坐标
-        let centerY = svgHeight / 2; // 中心点y坐标
-        let radius = Math.min(centerX, centerY) - padding; // 半径
+                // 雷达图属性
+                let padding = 50;
+                let svgWidth = 600;
+                let svgHeight = 400;
+                let centerX = svgWidth / 2; // 中心点x坐标
+                let centerY = svgHeight / 2; // 中心点y坐标
+                let radius = Math.min(centerX, centerY) - padding; // 半径
 
-        // 刻度数量，即多边形共有几个角
-        let numTicks = dataset.length;
+                // 刻度数量，即多边形共有几个角
+                let numTicks = dataset.length;
 
-        // 极坐标系转换函数
-        let angleScale = d3.scaleLinear()
-            .domain([0, numTicks])
-            .range([0, Math.PI * 2]);
+                // 极坐标系转换函数
+                let angleScale = d3.scaleLinear()
+                    .domain([0, numTicks])
+                    .range([0, Math.PI * 2]);
 
-        // 线性比例尺转换函数
-        let valueScale = d3.scaleLinear()
-            .domain([0, 100])
-            .range([0, radius]);
+                // 线性比例尺转换函数
+                let valueScale = d3.scaleLinear()
+                    .domain([0, 100])
+                    .range([0, radius]);
 
-        // 创建SVG元素
-        let svg = d3.select("body")
-            .append("svg")
-            .attr("width", svgWidth)
-            .attr("height", svgHeight)
-            .style('border', '1px solid #999999');
+                // 创建SVG元素
+                let svg = d3.select(dom)
+                    .append("svg")
+                    .attr("width", svgWidth)
+                    .attr("height", svgHeight)
+                    .style('border', '1px solid #999999');
 
-        // 定义渐变 中心向外渐变
-        let gradient = svg.append("defs")
-            .append("radialGradient")
-            .attr("id", "gradient")
-            .attr("cx", "50%")
-            .attr("cy", "50%")
-            .attr("r", "50%")
-            .attr("fx", "50%")
-            .attr("fy", "50%");
-        gradient.append("stop")
-            .attr("offset", "0%")
-            .attr("stop-color", "#f6efa6")
-            .attr("stop-opacity", 1);
-        gradient.append("stop")
-            .attr("offset", "100%")
-            .attr("stop-color", "#69b3a2")
-            .attr("stop-opacity", 1);
+                // 定义渐变 中心向外渐变
+                let gradient = svg.append("defs")
+                    .append("radialGradient")
+                    .attr("id", "gradient")
+                    .attr("cx", "50%")
+                    .attr("cy", "50%")
+                    .attr("r", "50%")
+                    .attr("fx", "50%")
+                    .attr("fy", "50%");
+                gradient.append("stop")
+                    .attr("offset", "0%")
+                    .attr("stop-color", "#f6efa6")
+                    .attr("stop-opacity", 1);
+                gradient.append("stop")
+                    .attr("offset", "100%")
+                    .attr("stop-color", "#69b3a2")
+                    .attr("stop-opacity", 1);
 
 
-        // 绘制多边形
-        let polygon = svg.append("g")
-            .attr("class", "polygon");
-        for (let i = 0; i < numTicks; i++) {
-            let angle = angleScale(i);
-            let x = centerX + valueScale(100) * Math.sin(angle);
-            let y = centerY - valueScale(100) * Math.cos(angle);
-            polygon.append("line")
-                .attr("x1", centerX)
-                .attr("y1", centerY)
-                .attr("x2", x)
-                .attr("y2", y)
-                .attr("stroke", "#cccccc")
-                .attr("stroke-width", 1);
-        }
+                // 绘制多边形
+                let polygon = svg.append("g")
+                    .attr("class", "polygon");
+                // 绘制一个正6边形
+                let hexagon = polygon.append("polygon")
+                    .attr("points", function () {
+                        let points = "";
+                        for (let i = 0; i < numTicks; i++) {
+                            let angle = angleScale(i);
+                            let x = centerX + valueScale(100) * Math.sin(angle);
+                            let y = centerY - valueScale(100) * Math.cos(angle);
+                            points += x + "," + y + " ";
+                        }
+                        return points;
+                    })
+                    .attr("stroke", "#f6efa6")
+                    .attr("stroke-width", 5)
+                    .attr("fill", "url(#gradient)");
+                for (let i = 0; i < numTicks; i++) {
+                    let angle = angleScale(i);
+                    let x = centerX + valueScale(100) * Math.sin(angle);
+                    let y = centerY - valueScale(100) * Math.cos(angle);
+                    polygon.append("line")
+                        .attr("x1", centerX)
+                        .attr("y1", centerY)
+                        .attr("x2", x)
+                        .attr("y2", y)
+                        .attr("stroke", "#f6efa6")
+                        .attr("stroke-width", 1);
+                }
 
-        // 绘制数据连线
-        let line = d3.line()
-            .x(function (d, i) { return centerX + valueScale(d.value) * Math.sin(angleScale(i)); })
-            .y(function (d, i) { return centerY - valueScale(d.value) * Math.cos(angleScale(i)); });
-        svg.append("path")
-            .datum(dataset)
-            .attr("fill", "url(#gradient)")
-            .attr("stroke", "#69b3a2")
-            .attr("stroke-width", 2)
-            .attr("d", line);
+                // 绘制数据连线
+                let line = d3.line()
+                    .x(function (d, i) { return centerX + valueScale(d.value) * Math.sin(angleScale(i)); })
+                    .y(function (d, i) { return centerY - valueScale(d.value) * Math.cos(angleScale(i)); })
+                    .curve(d3.curveLinearClosed);
+                svg.append("path")
+                    .datum(dataset)
+                    .attr("fill", "#ffffff")
+                    .attr("fill-opacity", 0.5)
+                    .attr("stroke", "#fff")
+                    .attr("stroke-width", 2)
+                    .attr("d", line);
 
-        // 绘制轴标签
-        let labels = svg.append("g")
-            .attr("class", "labels");
-        for (let i = 0; i < numTicks; i++) {
-            let angle = angleScale(i);
-            let r = radius + padding*0.5;
-            let x = centerX + r * Math.sin(angle);
-            let y = centerY - r * Math.cos(angle);
-            labels.append("text")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("text-anchor", "middle")
-                .attr("fill", "#333333")
-                .text(dataset[i].name + " " + dataset[i].value);
-        }
+                // 绘制轴标签
+                let labels = svg.append("g")
+                    .attr("class", "labels");
+                for (let i = 0; i < numTicks; i++) {
+                    let angle = angleScale(i);
+                    let r = radius + padding * 0.5;
+                    let x = centerX + r * Math.sin(angle);
+                    let y = centerY - r * Math.cos(angle);
+                    labels.append("text")
+                        .attr("x", x)
+                        .attr("y", y)
+                        .attr("text-anchor", "middle")
+                        .attr("fill", "#333333")
+                        .text(dataset[i].name + " " + dataset[i].value);
+                }
+
+                let innerHtml = ['更新数据'];
+                let buts = [];
+                let butdiv = document.createElement('div');
+                dom.appendChild(butdiv);
+                innerHtml.map(item => {
+                    let but = document.createElement('button');
+                    but.innerHTML = item;
+                    butdiv.appendChild(but);
+                    buts.push(but);
+                })
+
+                // 更新数据
+                buts[0].onclick = function () {
+                    dataset.forEach(item => {
+                        item.value = Math.floor(Math.random() * 60) + 40;
+                    })
+                    svg.selectAll("path")
+                        .datum(dataset)
+                        .transition()
+                        .duration(1000)
+                        .attr("d", line);
+
+                    svg.selectAll("text")
+                        .data(dataset)
+                        .transition()
+                        .duration(1000)
+                        .text(function (d) { return d.name + " " + d.value; });
+
+                }
+            }())
+
 
     </script>
- -->
+
 </body>
 
 </html>
