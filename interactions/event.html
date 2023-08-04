@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>d3.js interactions</title>
+    <script src="../js/d3.min.js"></script>
+    <!-- <script src="https://d3js.org/d3.v6.min.js"></script> -->
+    <style>
+        button {
+            margin: 0 8px;
+        }
+
+        body {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        body>div {
+            margin: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3 style="width: 100%;">
+        <a href="https://github.com/scqilin/d3js" target="_blank">Github 源码</a>
+    </h3>
+    <!-- 
+        人生中的每一个人
+        日子并不是一天一天的累计出来的
+        而是一天一天的消耗掉的。
+        那些你不经意的浪费的时间，就是你的生命。
+        有些时间很长 有些时间很短 因为时间并不是以秒来计算的
+        短暂的时间也许是一次偶然的相遇
+        长久的时间也许是一次无法忘怀的相知
+
+    -->
+    <script>
+        /**
+         * author: scqilin
+         * date: 2023-08-04
+         * QQ群: 959261248
+         */
+        console.log('人们因技术发展得以更好地掌控时间，但也有人因此成了时问的仆人。');
+        (function () {
+            // 与图表进行交互
+let dom = document.createElement('div');
+document.body.appendChild(dom);
+
+let padding = 30;
+let svgWidth = 600;
+let svgHeight = 160;
+
+let svg = d3.select(dom)
+    .append("svg")
+    .attr("width", svgWidth)
+    .attr("height", svgHeight)
+    .style('border', '1px solid #999999')
+
+// 定义5个颜色
+let colors = ['#fbb4ae', '#b3cde3', '#ccebc5', '#decbe4', '#fed9a6'];
+
+// 绘制5个矩形
+let rectWidth = 100;
+let rectHeight = 100;
+let rectPadding = 10;
+
+let rects = svg.selectAll('rect')
+    .data(colors)
+    .enter()
+    .append('rect')
+    .attr('x', (d, i) => {
+        return padding + (rectWidth + rectPadding) * i;
+    })
+    .attr('y', (d, i) => {
+        return padding;
+    })
+    .attr('width', rectWidth)
+    .attr('height', rectHeight)
+    .attr('fill', (
+        d, i
+    ) => {
+        return d;
+    })
+
+
+// 掘 友 们 V 我 50
+const infos = ['J', 'Y', 'M', 'V me', '50'];
+const texts = svg.selectAll('text')
+    .data(infos)
+    .enter()
+    .append('text')
+    .attr('x', (d, i) => {
+        return padding + (rectWidth + rectPadding) * i + rectWidth / 2;
+    })
+    .attr('y', (d, i) => {
+        return padding + rectHeight / 2;
+    })
+    .attr('text-anchor', 'middle')
+    .attr('dominant-baseline', 'middle')
+    .attr('fill', '#ffffff')
+    .attr('font-size', '24px')
+    .attr('opacity', 0)
+    .text(d => {
+        return d;
+    })
+    .style('pointer-events', 'none');
+// dispatch 调度
+let dispatch = d3.dispatch("mouseover", "mouseout");
+
+let handleMouseover = function (d, i) {
+    d3.select(this)
+        .attr('fill', '#ff6633')
+    // 第i个矩形的文字显示
+    d3.select(texts.nodes()[i])
+        .transition()
+        .duration(750)
+        .attr('opacity', 1)
+}
+
+let handleMouseout = function (d, i) {
+    d3.select(this)
+        .attr('fill', d);
+    // 第i个矩形的文字隐藏
+    d3.select(texts.nodes()[i])
+        .transition()
+        .duration(750)
+        .attr('opacity', 0)
+}
+dispatch.on('mouseover', handleMouseover);
+dispatch.on('mouseout', handleMouseout);
+
+rects
+    .on('mouseover', function (d, i) {
+        dispatch.call('mouseover', this, d, i);
+    })
+    .on('mouseout', function (d, i) {
+        dispatch.call('mouseout', this, d, i);
+    });
+
+let butdiv = document.createElement('div');
+dom.appendChild(butdiv);
+let but1 = document.createElement('button');
+but1.innerHTML = '解除绑定';
+butdiv.appendChild(but1);
+but1.onclick = function () {
+    dispatch.on('mouseover', null);
+    dispatch.on('mouseout', null);
+}
+let but2 = document.createElement('button');
+but2.innerHTML = '重新绑定';
+butdiv.appendChild(but2);
+but2.onclick =  () => {
+    dispatch.on('mouseover', handleMouseover);
+    dispatch.on('mouseout', handleMouseout);
+}
+
+            /*
+            浏览器具有本机事件侦听器-使用addEventListener()，我们可以侦听来自用户的事件:
+                1.鼠标事件
+                2.键盘事件
+                3.触摸事件
+                4.滚动事件
+                5.…… 
+            例如：
+            document.addEventListener('click', function() {
+                console.log('click');
+            });
+            当用户单击页面上的任何位置时，浏览器将触发onClick()。这些事件侦听器具有大量功能，并且易于使用。我们可以使用d3的事件监听器包装器获得更多功能!
+            我们的d3选择对象有一个on() 方法，它将在我们选定的DOM元素上创建事件侦听器。
+
+
+            
+            */
+
+        })();
+
+
+    </script>
+
+</body>
+
+</html>
