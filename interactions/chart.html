@@ -261,7 +261,6 @@
                         let svgTop = svgRect.top;
                         // 滚动条的位置
                         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                        console.log('scrollTop :>> ', scrollTop);
                         tooltip.style("left", xScale(i) + xScale.bandwidth() / 2 + svgLeft + "px")
                             .style("top", yScale(d.value) + svgTop + scrollTop + "px")
 
