@@ -30,14 +30,16 @@
         <a href="https://github.com/scqilin/d3js" target="_blank">Github 源码</a>
     </h3>
     <!-- 
-        人生中的每一个人
+       人生
         日子并不是一天一天的累计出来的
-        而是一天一天的消耗掉的。
-        那些你不经意的浪费的时间，就是你的生命。
-        有些时间很长 有些时间很短 因为时间并不是以秒来计算的
+        而是一天一天的消耗掉的
+        那些你不经意的浪费的时间
+        就是你的生命
+        有些时间很长
+        有些时间很短
+        因为时间并不是以秒来计算的
         短暂的时间也许是一次偶然的相遇
         长久的时间也许是一次无法忘怀的相知
-
     -->
     <script>
         /**
@@ -48,116 +50,116 @@
         console.log('人们因技术发展得以更好地掌控时间，但也有人因此成了时问的仆人。');
         (function () {
             // 与图表进行交互
-let dom = document.createElement('div');
-document.body.appendChild(dom);
+            let dom = document.createElement('div');
+            document.body.appendChild(dom);
 
-let padding = 30;
-let svgWidth = 600;
-let svgHeight = 160;
+            let padding = 30;
+            let svgWidth = 600;
+            let svgHeight = 160;
 
-let svg = d3.select(dom)
-    .append("svg")
-    .attr("width", svgWidth)
-    .attr("height", svgHeight)
-    .style('border', '1px solid #999999')
+            let svg = d3.select(dom)
+                .append("svg")
+                .attr("width", svgWidth)
+                .attr("height", svgHeight)
+                .style('border', '1px solid #999999')
 
-// 定义5个颜色
-let colors = ['#fbb4ae', '#b3cde3', '#ccebc5', '#decbe4', '#fed9a6'];
+            // 定义5个颜色
+            let colors = ['#ff6633', '#3399ff', '#33cc33', '#cc33ff', '#ffcc00'];
 
-// 绘制5个矩形
-let rectWidth = 100;
-let rectHeight = 100;
-let rectPadding = 10;
+            // 绘制5个矩形
+            let rectWidth = 100;
+            let rectHeight = 100;
+            let rectPadding = 10;
 
-let rects = svg.selectAll('rect')
-    .data(colors)
-    .enter()
-    .append('rect')
-    .attr('x', (d, i) => {
-        return padding + (rectWidth + rectPadding) * i;
-    })
-    .attr('y', (d, i) => {
-        return padding;
-    })
-    .attr('width', rectWidth)
-    .attr('height', rectHeight)
-    .attr('fill', (
-        d, i
-    ) => {
-        return d;
-    })
+            let rects = svg.selectAll('rect')
+                .data(colors)
+                .enter()
+                .append('rect')
+                .attr('x', (d, i) => {
+                    return padding + (rectWidth + rectPadding) * i;
+                })
+                .attr('y', (d, i) => {
+                    return padding;
+                })
+                .attr('width', rectWidth)
+                .attr('height', rectHeight)
+                .attr('fill', (
+                    d, i
+                ) => {
+                    return d;
+                })
 
 
-// 掘 友 们 V 我 50
-const infos = ['J', 'Y', 'M', 'V me', '50'];
-const texts = svg.selectAll('text')
-    .data(infos)
-    .enter()
-    .append('text')
-    .attr('x', (d, i) => {
-        return padding + (rectWidth + rectPadding) * i + rectWidth / 2;
-    })
-    .attr('y', (d, i) => {
-        return padding + rectHeight / 2;
-    })
-    .attr('text-anchor', 'middle')
-    .attr('dominant-baseline', 'middle')
-    .attr('fill', '#ffffff')
-    .attr('font-size', '24px')
-    .attr('opacity', 0)
-    .text(d => {
-        return d;
-    })
-    .style('pointer-events', 'none');
-// dispatch 调度
-let dispatch = d3.dispatch("mouseover", "mouseout");
+            // 掘 友 们 V 我 50
+            const infos = ['J', 'Y', 'M', 'V me', '50'];
+            const texts = svg.selectAll('text')
+                .data(infos)
+                .enter()
+                .append('text')
+                .attr('x', (d, i) => {
+                    return padding + (rectWidth + rectPadding) * i + rectWidth / 2;
+                })
+                .attr('y', (d, i) => {
+                    return padding + rectHeight / 2;
+                })
+                .attr('text-anchor', 'middle')
+                .attr('dominant-baseline', 'middle')
+                .attr('fill', '#ffffff')
+                .attr('font-size', '24px')
+                .attr('opacity', 0)
+                .text(d => {
+                    return d;
+                })
+                .style('pointer-events', 'none');
+            // dispatch 调度
+            let dispatch = d3.dispatch("mouseover", "mouseout");
 
-let handleMouseover = function (d, i) {
-    d3.select(this)
-        .attr('fill', '#ff6633')
-    // 第i个矩形的文字显示
-    d3.select(texts.nodes()[i])
-        .transition()
-        .duration(750)
-        .attr('opacity', 1)
-}
+            let handleMouseover = function (d, i) {
+                d3.select(this)
+                    .attr('fill', '#ff3366')
+                // 第i个矩形的文字显示
+                d3.select(texts.nodes()[i])
+                    .transition()
+                    .duration(750)
+                    .attr('opacity', 1)
+            }
 
-let handleMouseout = function (d, i) {
-    d3.select(this)
-        .attr('fill', d);
-    // 第i个矩形的文字隐藏
-    d3.select(texts.nodes()[i])
-        .transition()
-        .duration(750)
-        .attr('opacity', 0)
-}
-dispatch.on('mouseover', handleMouseover);
-dispatch.on('mouseout', handleMouseout);
+            let handleMouseout = function (d, i) {
+                d3.select(this)
+                    .attr('fill', d);
+                // 第i个矩形的文字隐藏
+                d3.select(texts.nodes()[i])
+                    .transition()
+                    .duration(750)
+                    .attr('opacity', 0)
+            }
+            dispatch.on('mouseover', handleMouseover);
+            dispatch.on('mouseout', handleMouseout);
 
-rects
-    .on('mouseover', function (d, i) {
-        dispatch.call('mouseover', this, d, i);
-    })
-    .on('mouseout', function (d, i) {
-        dispatch.call('mouseout', this, d, i);
-    });
+            rects
+                .on('mouseover', function (d, i) {
+                    dispatch.call('mouseover', this, d, i);
+                })
+                .on('mouseout', function (d, i) {
+                    dispatch.call('mouseout', this, d, i);
+                });
 
-let butdiv = document.createElement('div');
-dom.appendChild(butdiv);
-let but1 = document.createElement('button');
-but1.innerHTML = '解除绑定';
-butdiv.appendChild(but1);
-but1.onclick = function () {
-    dispatch.on('mouseover', null);
-    dispatch.on('mouseout', null);
-}
-let but2 = document.createElement('button');
-but2.innerHTML = '重新绑定';
-butdiv.appendChild(but2);
-but2.onclick =  () => {
-    dispatch.on('mouseover', handleMouseover);
-    dispatch.on('mouseout', handleMouseout);
-}
+            let butdiv = document.createElement('div');
+            dom.appendChild(butdiv);
+            let but1 = document.createElement('button');
+            but1.innerHTML = '解除绑定';
+            butdiv.appendChild(but1);
+            but1.onclick = function () {
+                dispatch.on('mouseover', null);
+                dispatch.on('mouseout', null);
+            }
+            let but2 = document.createElement('button');
+            but2.innerHTML = '重新绑定';
+            butdiv.appendChild(but2);
+            but2.onclick = () => {
+                dispatch.on('mouseover', handleMouseover);
+                dispatch.on('mouseout', handleMouseout);
+            }
 
             /*
             浏览器具有本机事件侦听器-使用addEventListener()，我们可以侦听来自用户的事件:
@@ -172,10 +174,235 @@ but2.onclick =  () => {
             });
             当用户单击页面上的任何位置时，浏览器将触发onClick()。这些事件侦听器具有大量功能，并且易于使用。我们可以使用d3的事件监听器包装器获得更多功能!
             我们的d3选择对象有一个on() 方法，它将在我们选定的DOM元素上创建事件侦听器。
-
-
-            
             */
+
+        })();
+
+
+    </script>
+
+    <script>
+        (function () {
+            // 与图表进行交互 drag
+            let dom = document.createElement('div');
+            document.body.appendChild(dom);
+
+            let padding = 30;
+            let svgWidth = 600;
+            let svgHeight = 300;
+
+            let svg = d3.select(dom)
+                .append("svg")
+                .attr("width", svgWidth)
+                .attr("height", svgHeight)
+                .style('border', '1px solid #999999')
+
+            // 定义5个颜色
+            //let colors = ['#ff6633', '#3399ff', '#33cc33', '#cc33ff', '#ffcc00'];
+            // 5 个颜色的 中文名称
+            // let colorsName = ['橙色', '蓝色', '绿色', '紫色', '黄色'];
+            let colors = [
+                {
+                    id: 0,
+                    name: '橙色',
+                    color: '#ff6633'
+                },
+                {
+                    id: 1,
+                    name: '蓝色',
+                    color: '#3399ff'
+                },
+                {
+                    id: 2,
+                    name: '绿色',
+                    color: '#33cc33'
+                },
+                {
+                    id: 3,
+                    name: '紫色',
+                    color: '#cc33ff'
+                },
+                {
+                    id: 4,
+                    name: '黄色',
+                    color: '#ffcc00'
+                }
+            ]
+
+            // 绘制5个矩形
+            let rectWidth = 100;
+            let rectHeight = 100;
+            let rectPadding = 10;
+
+            let pos = {}
+
+            // 绘制5个矩形背景边框
+            let gback = svg.append('g').attr('class', 'back');
+            let rectBacks = gback.selectAll('rect')
+                .data(colors)
+                .enter()
+                .append('rect')
+                .attr('x', (d, i) => {
+                    let x = padding + (rectWidth + rectPadding) * i;
+                    pos[d.id] = [x, padding]
+                    return x;
+                })
+                .attr('cid', d => d.name)
+                .attr('ok', 'fail')
+                .attr('y', padding)
+                .attr('width', rectWidth)
+                .attr('height', rectHeight)
+                .attr('fill', 'none')
+                .attr('stroke', '#000000')
+                .attr('stroke-width', '2px')
+
+            let _colors = JSON.parse(JSON.stringify(colors));
+            // 打乱顺序
+            _colors.sort(function () {
+                return Math.random() - 0.5;
+            })
+
+            let grect = svg.append('g').attr('class', 'rect');
+            let rects = grect.selectAll('rect')
+                .data(_colors)
+                .enter()
+                .append('rect')
+                .attr('cid', d => d.name)
+                .attr('x', (d, i) => {
+                    return padding + (rectWidth + rectPadding) * i + rectWidth * 0.1;
+                })
+                .attr('y', (d, i) => {
+                    return padding + rectHeight + 50;
+                })
+                .attr('width', rectWidth * 0.8)
+                .attr('height', rectHeight * 0.8)
+                .attr('fill', d => d.color)
+
+
+
+            // 在背景矩形上添加文字 颜色名称
+            let gtext = svg.append('g').attr('class', 'text');
+            let texts = gtext.selectAll('text')
+                .data(colors)
+                .enter()
+                .append('text')
+                .attr('x', (d, i) => {
+                    return padding + (rectWidth + rectPadding) * i + rectWidth / 2;
+                })
+                .attr('y', (d, i) => {
+                    return padding + rectHeight / 2;
+                })
+                .attr('text-anchor', 'middle')
+                .attr('dominant-baseline', 'middle')
+                .attr('fill', '#000000')
+                .attr('font-size', '20px')
+                .text(d => d.name)
+                .style('pointer-events', 'none');
+
+            // 提示文本 干得漂亮，你完成了所有的颜色匹配
+            let infoText = svg
+                .append('text')
+                .attr('x', svgWidth / 2)
+                .attr('y', svgHeight - 80)
+                .attr('text-anchor', 'middle')
+                .attr('dominant-baseline', 'middle')
+                .attr('fill', '#000000')
+                .attr('font-size', '24px')
+                .text('干得漂亮Tom，你完成了所有的颜色匹配!')
+                .style('pointer-events', 'none')
+                .style('opacity', 0);
+            let drag = d3.drag()
+                .on('start', function (d, i) {
+                    d3.select(this)
+                        .raise()// 提升层级 使得当前元素在最上层
+                        .transition()
+                        .attr('stroke', '#000000')
+                        .attr('stroke-width', '2px')
+                        // 鼠标样式
+                        .style('cursor', 'move')
+
+                })
+                .on('drag', function (d) {
+                    let dx = d3.event.dx;
+                    let dy = d3.event.dy;
+                    let x = d3.select(this).attr('x');
+                    let y = d3.select(this).attr('y');
+                    d3.select(this)
+                        .attr('x', +x + dx)
+                        .attr('y', +y + dy);
+                    // 矩形中心点坐标
+                    let cx = +x + dx + (rectWidth * 0.8) / 2;
+                    let cy = +y + dy + (rectHeight * 0.8) / 2;
+                    let cid = d3.select(this).attr('cid');
+                    dis(d3.select(this), cx, cy, cid);
+
+
+
+                })
+                .on('end', function (d, i) {
+                    d3.select(this)
+                        .transition()
+                        .attr('stroke', 'none')
+                        //鼠标样式
+                        .style('cursor', 'default')
+
+                    if (d3.select(this).attr('ok') === 'success') {
+                        // 吸附到背景矩形上
+                        let _x = pos[d.id][0] + rectWidth / 2 - rectWidth * 0.8 / 2;
+                        let _y = pos[d.id][1] + rectHeight / 2 - rectHeight * 0.8 / 2;
+                        d3.select(this)
+                            .transition()
+                            .attr('x', _x)
+                            .attr('y', _y)
+                    }
+                    goodJob();
+                })
+
+            rects.call(drag);
+
+            function dis(rect, x, y, cid) {
+                // 计算x y和 rectBacks 中心点的距离 如果小于 30 就 变色
+                rectBacks.each(function (d, i) {
+                    let cx = pos[i][0] + rectWidth / 2;
+                    let cy = pos[i][1] + rectHeight / 2;
+                    let _cid = d3.select(this).attr('cid');
+                    let distance = Math.sqrt(Math.pow(cx - x, 2) + Math.pow(cy - y, 2));
+                    if (distance < 30 && cid == _cid) {
+                        d3.select(this)
+                            .attr('stroke', d.color)
+                            .attr('ok', 'success')
+                        rect.attr('ok', 'success')
+                    } else {
+                        if (cid != _cid) return;
+                        d3.select(this)
+                            .attr('stroke', '#000000')
+                            .attr('ok', 'fail')
+                        rect.attr('ok', 'fail')
+                    }
+                    if (d3.select(this).attr('ok') != 'success') {
+                        gogogo = false;
+                    }
+                })
+
+            }
+
+            function goodJob() {
+                let gogogo = true;
+                rectBacks.each(function (d, i) {
+                    if (d3.select(this).attr('ok') === 'fail') {
+                        gogogo = false;
+                    }
+                })
+                if (gogogo) {
+                    infoText
+                        .transition()
+                        .style('opacity', 1)
+                } else {
+                    infoText
+                        .transition()
+                        .style('opacity', 0)
+                }
+            }
 
         })();
 
