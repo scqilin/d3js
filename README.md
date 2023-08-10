@@ -6,5 +6,6 @@
 - [basic-chart](https://scqilin.github.io/d3js/basic-chart/index.html)
 - [basic-animation](https://scqilin.github.io/d3js/basic-chart/animation.html)
 - [basic-interactions](https://scqilin.github.io/d3js/interactions/event.html)
+- [basic-tooltip](https://scqilin.github.io/d3js/interactions/chart.html)
 
 案例不断更新中，欢迎star，谢谢！
