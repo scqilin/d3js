@@ -21,252 +21,303 @@
         <a href="https://github.com/scqilin/d3js" target="_blank">Github 源码</a>
     </h3>
     <script>
-        /**
+        (function () {
+            /**
          * author: scqilin
          * date: 2023-08-12
          * QQ群: 959261248
          * 相信自己，你已经走了一半的路。
          */
-        console.log('相信自己，你已经走了一半的路。');
-        // 数据来源网络 我没有验证过 https://blog.sina.com.cn/s/blog_5bc171940100jqhh.html
-        // 验证过 不准 别用了
-        //111111 111110 111101 111100 111011 111010 111001 111000 110111 110110 110101 110100 110011 110010 110001 110000 101111 101110 101101 101100 101011 101010 101001 101000 100111 100110 100101 100100 100011 100010 100001 100000 011111 011110 011101 011100 011011 011010 011001 011000 010111 010110 010101 010100 010011 010010 010001 010000 001111 001110 001101 001100 001011 001010 001001 001000 000111 000110 000101 000100 000011 000010 000001 000000
-        //63乾 62垢 61 同人 60遁 59履 58 讼 57无妄 56否 55 小畜 54巽 53 家人 52渐 51 中孚 50涣 49益 48观 47大有 46鼎 45离 44 旅 43睽 42 末济 41 噬嗑 40 晋 39大畜 38蛊 37贳 36艮 35损 34 蒙 33颐 32剥 31夫 30大过 29革 28咸 27兑 26困 25 随 24萃 23 需 22 # 21 既济 20蹇 19 节 18坎 17 屯 16比 15 大壮 14恒 13 丰 12小过 11归妹 10 解 9震 8豫 7泰 6升 5明夷 4谦 3临 2师 1复 0坤
-        const guaObj = {
-            '111111': { name: '乾', value: 63 },
-            '111110': { name: '垢', value: 62 },
-            '111101': { name: '同人', value: 61 },
-            '111100': { name: '遁', value: 60 },
-            '111011': { name: '履', value: 59 },
-            '111010': { name: '讼', value: 58 },
-            '111001': { name: '无妄', value: 57 },
-            '111000': { name: '否', value: 56 },
-            '110111': { name: '小畜', value: 55 },
-            '110110': { name: '巽', value: 54 },
-            '110101': { name: '家人', value: 53 },
-            '110100': { name: '渐', value: 52 },
-            '110011': { name: '中孚', value: 51 },
-            '110010': { name: '涣', value: 50 },
-            '110001': { name: '益', value: 49 },
-            '110000': { name: '观', value: 48 },
-            '101111': { name: '大有', value: 47 },
-            '101110': { name: '鼎', value: 46 },
-            '101101': { name: '离', value: 45 },
-            '101100': { name: '旅', value: 44 },
-            '101011': { name: '睽', value: 43 },
-            '101010': { name: '未济', value: 42 },
-            '101001': { name: '噬嗑', value: 41 },
-            '101000': { name: '晋', value: 40 },
-            '100111': { name: '大畜', value: 39 },
-            '100110': { name: '蛊', value: 38 },
-            '100101': { name: '贳', value: 37 },
-            '100100': { name: '艮', value: 36 },
-            '100011': { name: '损', value: 35 },
-            '100010': { name: '蒙', value: 34 },
-            '100001': { name: '颐', value: 33 },
-            '100000': { name: '剥', value: 32 },
-            '011111': { name: '夫', value: 31 },
-            '011110': { name: '大过', value: 30 },
-            '011101': { name: '革', value: 29 },
-            '011100': { name: '咸', value: 28 },
-            '011011': { name: '兑', value: 27 },
-            '011010': { name: '困', value: 26 },
-            '011001': { name: '随', value: 25 },
-            '011000': { name: '萃', value: 24 },
-            '010111': { name: '需', value: 23 },
-            '010110': { name: '井', value: 22 },
-            '010101': { name: '既济', value: 21 },
-            '010100': { name: '蹇', value: 20 },
-            '010011': { name: '节', value: 19 },
-            '010010': { name: '坎', value: 18 },
-            '010001': { name: '屯', value: 17 },
-            '010000': { name: '比', value: 16 },
-            '001111': { name: '大壮', value: 15 },
-            '001110': { name: '恒', value: 14 },
-            '001101': { name: '丰', value: 13 },
-            '001100': { name: '小过', value: 12 },
-            '001011': { name: '归妹', value: 11 },
-            '001010': { name: '解', value: 10 },
-            '001001': { name: '震', value: 9 },
-            '001000': { name: '豫', value: 8 },
-            '000111': { name: '泰', value: 7 },
-            '000110': { name: '升', value: 6 },
-            '000101': { name: '明夷', value: 5 },
-            '000100': { name: '谦', value: 4 },
-            '000011': { name: '临', value: 3 },
-            '000010': { name: '师', value: 2 },
-            '000001': { name: '复', value: 1 },
-            '000000': { name: '坤', value: 0 },
-        }
-        let _w = 130;
-        let _n = 8;
-        const padding = 30;
-        const svgWidth = _w * _n;
-        const svgHeight = _w + 120;
-
-
-        const svg = d3.select("body")
-            .append("svg")
-            .attr("width", svgWidth)
-            .attr("height", svgHeight)
-            .style('border', '1px solid #999999')
-        // path
-
-        // 先绘制10个正方形格子
-
-        const gArr = [];
-        for (let i = 0; i < 10; i++) {
-            const g = svg.append('g')
-                .attr('transform', `translate(${i * _w},0)`)
-            gArr.push(g);
-            // 绘制格子
-            g.append('rect')
-                .attr('width', _w)
-                .attr('height', _w + 30)
-                .attr('fill', 'none')
-                .attr('stroke', '#999999')
-                .attr('stroke-width', 1)
-        }
-
-
-        function setRound(n) {
-            let g = gArr[n];
-            let paths = [];
-            let str = ''
-            for (let i = 1; i <= 6; i++) {
-                let _s = Math.random() > 0.5 ? 1 : 0;
-                let path = getPath(i, _s);
-                str += _s;
-                paths.push(path);
+            console.log('相信自己，你已经走了一半的路。');
+            // 数据来源网络 我没有验证过 https://blog.sina.com.cn/s/blog_5bc171940100jqhh.html
+            // 验证过 不准 别用了
+            //111111 111110 111101 111100 111011 111010 111001 111000 110111 110110 110101 110100 110011 110010 110001 110000 101111 101110 101101 101100 101011 101010 101001 101000 100111 100110 100101 100100 100011 100010 100001 100000 011111 011110 011101 011100 011011 011010 011001 011000 010111 010110 010101 010100 010011 010010 010001 010000 001111 001110 001101 001100 001011 001010 001001 001000 000111 000110 000101 000100 000011 000010 000001 000000
+            //63乾 62垢 61 同人 60遁 59履 58 讼 57无妄 56否 55 小畜 54巽 53 家人 52渐 51 中孚 50涣 49益 48观 47大有 46鼎 45离 44 旅 43睽 42 末济 41 噬嗑 40 晋 39大畜 38蛊 37贳 36艮 35损 34 蒙 33颐 32剥 31夫 30大过 29革 28咸 27兑 26困 25 随 24萃 23 需 22 # 21 既济 20蹇 19 节 18坎 17 屯 16比 15 大壮 14恒 13 丰 12小过 11归妹 10 解 9震 8豫 7泰 6升 5明夷 4谦 3临 2师 1复 0坤
+            const guaObj = {
+                '111111': { name: '乾', value: 63 },
+                '111110': { name: '垢', value: 62 },
+                '111101': { name: '同人', value: 61 },
+                '111100': { name: '遁', value: 60 },
+                '111011': { name: '履', value: 59 },
+                '111010': { name: '讼', value: 58 },
+                '111001': { name: '无妄', value: 57 },
+                '111000': { name: '否', value: 56 },
+                '110111': { name: '小畜', value: 55 },
+                '110110': { name: '巽', value: 54 },
+                '110101': { name: '家人', value: 53 },
+                '110100': { name: '渐', value: 52 },
+                '110011': { name: '中孚', value: 51 },
+                '110010': { name: '涣', value: 50 },
+                '110001': { name: '益', value: 49 },
+                '110000': { name: '观', value: 48 },
+                '101111': { name: '大有', value: 47 },
+                '101110': { name: '鼎', value: 46 },
+                '101101': { name: '离', value: 45 },
+                '101100': { name: '旅', value: 44 },
+                '101011': { name: '睽', value: 43 },
+                '101010': { name: '未济', value: 42 },
+                '101001': { name: '噬嗑', value: 41 },
+                '101000': { name: '晋', value: 40 },
+                '100111': { name: '大畜', value: 39 },
+                '100110': { name: '蛊', value: 38 },
+                '100101': { name: '贳', value: 37 },
+                '100100': { name: '艮', value: 36 },
+                '100011': { name: '损', value: 35 },
+                '100010': { name: '蒙', value: 34 },
+                '100001': { name: '颐', value: 33 },
+                '100000': { name: '剥', value: 32 },
+                '011111': { name: '夫', value: 31 },
+                '011110': { name: '大过', value: 30 },
+                '011101': { name: '革', value: 29 },
+                '011100': { name: '咸', value: 28 },
+                '011011': { name: '兑', value: 27 },
+                '011010': { name: '困', value: 26 },
+                '011001': { name: '随', value: 25 },
+                '011000': { name: '萃', value: 24 },
+                '010111': { name: '需', value: 23 },
+                '010110': { name: '井', value: 22 },
+                '010101': { name: '既济', value: 21 },
+                '010100': { name: '蹇', value: 20 },
+                '010011': { name: '节', value: 19 },
+                '010010': { name: '坎', value: 18 },
+                '010001': { name: '屯', value: 17 },
+                '010000': { name: '比', value: 16 },
+                '001111': { name: '大壮', value: 15 },
+                '001110': { name: '恒', value: 14 },
+                '001101': { name: '丰', value: 13 },
+                '001100': { name: '小过', value: 12 },
+                '001011': { name: '归妹', value: 11 },
+                '001010': { name: '解', value: 10 },
+                '001001': { name: '震', value: 9 },
+                '001000': { name: '豫', value: 8 },
+                '000111': { name: '泰', value: 7 },
+                '000110': { name: '升', value: 6 },
+                '000101': { name: '明夷', value: 5 },
+                '000100': { name: '谦', value: 4 },
+                '000011': { name: '临', value: 3 },
+                '000010': { name: '师', value: 2 },
+                '000001': { name: '复', value: 1 },
+                '000000': { name: '坤', value: 0 },
             }
-            let name = guaObj[str].name;
-            // hehe 数据不准 不搞了
-            addPath(g, paths, n, '※卦');
-        }
+            let _w = 130;
+            let _n = 8;
+            const padding = 30;
+            const svgWidth = _w * _n;
+            const svgHeight = _w + 420;
+            // 长实线表示阳，短虚线表示阴
+            // 
 
-        for (i = 0; i < _n; i++) {
-            setRound(i);
-        }
+            const svg = d3.select("body")
+                .append("svg")
+                .attr("width", svgWidth)
+                .attr("height", svgHeight)
+                .style('border', '1px solid #999999')
+            // path
 
-        function addPath(g, paths, n, name) {
-            paths.forEach((element, _i) => {
-                //红色和蓝色：红色代表阳，蓝色代表阴。
-                const path = d3.path();
-                path.moveTo(element[0].x1, element[0].y1);
-                path.lineTo(element[0].x2, element[0].y2);
+            // 先绘制N个正方形格子
 
-                if (element.length > 1) {
-                    path.moveTo(element[1].x1, element[1].y1);
-                    path.lineTo(element[1].x2, element[1].y2);
+            const gArr = [];
+            for (let i = 0; i < _n; i++) {
+                const g = svg.append('g')
+                    .attr('transform', `translate(${i * _w},0)`)
+                gArr.push(g);
+                // 绘制格子
+                g.append('rect')
+                    .attr('width', _w)
+                    .attr('height', _w + 30)
+                    .attr('fill', 'none')
+                    .attr('stroke', '#999999')
+                    .attr('stroke-width', 1)
+            }
+
+
+            function setRound(n) {
+                let g = gArr[n];
+                let paths = [];
+                let str = ''
+                for (let i = 1; i <= 6; i++) {
+                    let _s = Math.random() > 0.5 ? 1 : 0;
+                    let path = getPath(i, _s);
+                    str += _s;
+                    paths.push(path);
                 }
+                let name = guaObj[str].name;
+                // hehe 数据不准 不搞了
+                addPath(g, paths, n, '※卦');
+            }
 
-                g.append('path')
-                    .attr('d', path)
-                    .attr('stroke-width', 0)
+            for (i = 0; i < _n; i++) {
+                setRound(i);
+            }
+
+            function addPath(g, paths, n, name) {
+                paths.forEach((element, _i) => {
+                    //红色和蓝色：红色代表阳，蓝色代表阴。
+                    const path = d3.path();
+                    path.moveTo(element[0].x1, element[0].y1);
+                    path.lineTo(element[0].x2, element[0].y2);
+
+                    if (element.length > 1) {
+                        path.moveTo(element[1].x1, element[1].y1);
+                        path.lineTo(element[1].x2, element[1].y2);
+                    }
+
+                    g.append('path')
+                        .attr('d', path)
+                        .attr('stroke-width', 0)
+                        .attr('opacity', 0)
+                        .transition()
+                        .delay(1000 * n + 100 * _i)
+                        .duration(500)
+                        .attr('opacity', 1)
+                        .attr('stroke-width', 10)
+                        .attr('stroke', element.length > 1 ? '#87CEEB' : '#FF7F50');
+
+                });
+                g.append('text')
+                    .attr('x', _w / 2)
+                    .attr('y', _w + 20)
+                    .attr('fill', '#000000')
+                    .attr('font-size', 20)
+                    .attr('text-anchor', 'middle')
                     .attr('opacity', 0)
                     .transition()
-                    .delay(1000 * n + 100 * _i)
+                    .delay(1000 * n + 100 * 6)
                     .duration(500)
                     .attr('opacity', 1)
-                    .attr('stroke-width', 10)
-                    .attr('stroke', element.length > 1 ? '#87CEEB' : '#FF7F50');
+                    .text(name);
 
-            });
-            g.append('text')
-                .attr('x', _w / 2)
-                .attr('y', _w + 20)
-                .attr('fill', '#000000')
-                .attr('font-size', 20)
-                .attr('text-anchor', 'middle')
-                .attr('opacity', 0)
-                .transition()
-                .delay(1000 * n + 100 * 6)
-                .duration(500)
-                .attr('opacity', 1)
-                .text(name);
-
-        }
-
-
-        // 写一个函数 传入m 1-6 ,n 0 和 1
-        function getPath(m, n) {
-            if (n === 1) {
-                let y = m * 20 - 5;
-                let x1 = 15;
-                let x2 = 115;
-                // 返回2个点的坐标
-                return [{ x1: x1, y1: y, x2: x2, y2: y }]
-            } else {
-                let y = m * 20 - 5;
-                let x1 = 15;
-                let x2 = 60;
-                let x3 = 70;
-                let x4 = 115;
-                // 返回4个点的坐标
-                return [{ x1: x1, y1: y, x2: x2, y2: y }, { x1: x3, y1: y, x2: x4, y2: y }]
             }
 
 
-        }
-
-
-        let strs = [
-            '你将迎来幸福的时刻，一切都将顺利进行，财富和快乐将伴随着你的人生旅程。',
-            '坚持不懈的努力将带来巨大的回报，你的事业将蒸蒸日上，成功将与你紧密相连。',
-            '你的梦想将成为现实，机会将不断降临在你身上，你将享受到事业和生活的丰盛果实。',
-            '你具备无限的潜力和勇气，你将超越一切困难，迈向辉煌的未来。',
-            '每一天都是新的开始，你将用积极的态度和坚定的信念创造属于自己的奇迹。',
-            '你将迎来事业的黄金时期，你的努力将得到回报，你的财富将不断增加。',
-        ]
-        // 模拟打字机效果 把文字一个一个打出来
-        let str = strs[Math.floor(Math.random() * strs.length)];
-        let _str = '';
-        let _i = 0;
-        let info = svg.append('text').attr('id', 'text').attr('x', svgWidth / 2).attr('y', _w + 60).attr('fill', '#000000').attr('font-size', 20).attr('text-anchor', 'middle').text('');
-        setTimeout(() => {
-            let timer = setInterval(() => {
-                _str += str[_i];
-                d3.select('#text').text(_str);
-                _i++;
-                if (_i >= str.length) {
-                    clearInterval(timer);
+            // 写一个函数 传入m 1-6 ,n 0 和 1
+            function getPath(m, n) {
+                if (n === 1) {
+                    let y = m * 20 - 5;
+                    let x1 = 15;
+                    let x2 = 115;
+                    // 返回2个点的坐标
+                    return [{ x1: x1, y1: y, x2: x2, y2: y }]
+                } else {
+                    let y = m * 20 - 5;
+                    let x1 = 15;
+                    let x2 = 60;
+                    let x3 = 70;
+                    let x4 = 115;
+                    // 返回4个点的坐标
+                    return [{ x1: x1, y1: y, x2: x2, y2: y }, { x1: x3, y1: y, x2: x4, y2: y }]
                 }
-            }, 100);
-        }, 1000 * _n + 100 * 6 - 500);
-        setTimeout(() => {
-            // 点击事件 点击解锁更多内容
-            let info2 = svg.append('text')
-                .attr('x', svgWidth / 2).attr('y', _w + 100)
+
+
+            }
+
+
+            let strs = [
+                '你将迎来幸福的时刻，一切都将顺利进行，财富和快乐将伴随着你的人生旅程。',
+                '坚持不懈的努力将带来巨大的回报，你的事业将蒸蒸日上，成功将与你紧密相连。',
+                '你的梦想将成为现实，机会将不断降临在你身上，你将享受到事业和生活的丰盛果实。',
+                '你具备无限的潜力和勇气，你将超越一切困难，迈向辉煌的未来。',
+                '每一天都是新的开始，你将用积极的态度和坚定的信念创造属于自己的奇迹。',
+                '你将迎来事业的黄金时期，你的努力将得到回报，你的财富将不断增加。',
+            ]
+            // 模拟打字机效果 把文字一个一个打出来
+            let str = strs[Math.floor(Math.random() * strs.length)];
+            let _str = '';
+            let _i = 0;
+            let info = svg.append('text').attr('id', 'text').attr('x', svgWidth / 2).attr('y', _w + 60).attr('fill', '#000000').attr('font-size', 20).attr('text-anchor', 'middle').text('');
+            setTimeout(() => {
+                let timer = setInterval(() => {
+                    _str += str[_i];
+                    d3.select('#text').text(_str);
+                    _i++;
+                    if (_i >= str.length) {
+                        clearInterval(timer);
+                    }
+                }, 100);
+            }, 1000 * _n + 100 * 6 - 500);
+            setTimeout(() => {
+                // 点击事件 点击解锁更多内容
+                let info2 = svg.append('text')
+                    .attr('x', svgWidth / 2).attr('y', _w + 100)
+                    .attr('fill', '#000000')
+                    .attr('font-size', 24)
+                    .attr('text-anchor', 'middle')
+                    .text('点击解锁更多内容🔐')
+                    .style('cursor', 'pointer')
+                    .on('click', () => {
+                        let w = window.innerWidth;
+                        let h = window.innerHeight;
+                        let div = d3.select('body').append('div')
+                            .style('position', 'absolute')
+                            .style('top', 0)
+                            .style('left', 0)
+                            .style('width', w + 'px')
+                            .style('height', h + 'px')
+                            .style('background-color', '#000000F0')
+                            .style('z-index', 999999999)
+                            .style('text-align', 'center')
+                            .style('padding-top', '100px')
+                            .style('font-size', '28px')
+                            .style('color', '#ffffff')
+                            .style('font-weight', 'bold')
+                            .style('cursor', 'pointer')
+                            .text('张开双手看看吧，你的命运就掌握在你自己的手上，别信那些虚无缥缈的东西。')
+                            .on('click', () => {
+                                div.remove();
+                            })
+                    })
+            }, 1000 * _n + 100 * 6 + 3000);
+
+          
+
+            // 绘制八卦图
+            // 1.绘制圆
+            let r = 120;
+            let cx = svgWidth / 2;
+            let cy = svgHeight / 2+120;
+            let gb = svg.append('g')
+                .attr('transform',`translate(${cx} ${cy})`)
+            let circle2 = gb.append('circle')
+                .attr('cx', 0)
+                .attr('cy', 0)
+                .attr('r', r)
+                .attr('fill', '#fff')
+                .attr('stroke', '#000')
+                .attr('stroke-width', 2);
+
+
+            let path2 = d3.path();
+            path2.arc(0, 0 - r / 2, r / 2, -Math.PI / 2, Math.PI * 0.5);
+            path2.arc(0, 0 + r / 2, r / 2, Math.PI / 2, Math.PI * 1.5);
+            path2.arc(0, 0, r, Math.PI / 2, Math.PI * 1.5,true);
+            gb.append('path')
+                .attr('d', path2)
+                .attr('fill', '#000')
+
+
+            gb.append('circle')
+                .attr('cx', 0)
+                .attr('cy', 0 - r / 2)
+                .attr('r', r / 10)
                 .attr('fill', '#000000')
-                .attr('font-size', 24)
-                .attr('text-anchor', 'middle')
-                .text('点击解锁更多内容🔐')
-                .style('cursor', 'pointer')
-                .on('click', () => {
-                    let w = window.innerWidth;
-                    let h = window.innerHeight;
-                    let div = d3.select('body').append('div')
-                        .style('position', 'absolute')
-                        .style('top', 0)
-                        .style('left', 0)
-                        .style('width', w + 'px')
-                        .style('height', h + 'px')
-                        .style('background-color', '#000000F0')
-                        .style('z-index', 999999999)
-                        .style('text-align', 'center')
-                        .style('padding-top', '100px')
-                        .style('font-size', '28px')
-                        .style('color', '#ffffff')
-                        .style('font-weight', 'bold')
-                        .style('cursor', 'pointer')
-                        .text('张开双手看看吧，你的命运就掌握在你自己的手上，别信那些虚无缥缈的东西。')
-                        .on('click', () => {
-                            div.remove();
-                        })
-                })
-        }, 1000 * _n + 100 * 6 + 3000);
 
+            gb.append('circle')
+                .attr('cx', 0)
+                .attr('cy', 0 + r / 2)
+                .attr('r', r / 10)
+                .attr('fill', '#FFFFFF')
 
+            // gb 旋转
+            let _t = 0;
+            setInterval(() => {
+                gb.attr('transform',`translate(${cx} ${cy}) rotate(${Math.sin(_t)*360*2})`);
+                _t += .002 ;
+            }, 10);
+
+        })()
+    </script>
+
+    <script>
 
     </script>
 
